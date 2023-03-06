@@ -10,3 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../Includes/pipex.h"
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+int	ft_putstr(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], ft_strlen(str));
+		i++;
+	}
+}

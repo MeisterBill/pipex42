@@ -10,3 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../Includes/pipex.h"
+
+int	check_if_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	ft_putstr("Error:\nCommand empty.\n", 0);
+	return (1);
+}
