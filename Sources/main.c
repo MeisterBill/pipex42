@@ -6,15 +6,92 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:49 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/06 17:11:39 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/15 16:18:39 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/pipex.h"
 
+static	void	init_cmd(t_cmd *cmd, int fd)
+{
+	cmd->fd = fd;
+	cmd->poss_path = NULL;
+	cmd->cmd = NULL;
+	cmd->cmd_path = NULL;
+	cmd->cmd_access = NULL;
+	cmd->args[0] = NULL;
+}
+
+static char	**get_path(char **env)
+{
+	char	**my_path;
+	char	*env_path;
+	int		i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strncmp(env[i], "PATH=", PATH))
+		{
+			env_path = ft_substr(env[i], START, ft_strlen(env[i]));
+			if (!env_path)
+				return (NULL);
+			my_path = ft_splitpath(env_path, ':');
+			if (!my_path)
+			{
+				free (env_path);
+				return (NULL);
+			}
+			free (env_path);
+			return (my_path);
+		}
+	}
+	return (NULL);
+}
+
+static	int	get_cmd(char **env, t_cmd *cmd, char *argv)
+{
+	int		i;
+	char	**tmp;
+
+	i = -1;
+	cmd->poss_path = get_path(env);
+	if (!cmd->poss_path)
+		return (0);
+	tmp = ft_splitpath(argv, ' ');
+	if (!tmp)
+		return (0);
+	cmd->cmd = ft_substr(tmp[i + 1], 0, ft_strlen(tmp[i + 1]) - 1);
+	if (!cmd->cmd)
+		return (free_arr(tmp));
+	while (tmp[++i])
+	{
+		cmd->args[i] = ft_substr(tmp[i], 0, ft_strlen(tmp[i]) - 1);
+		if (!cmd->args[i])
+		{
+			free_arr(cmd->args);
+			return (free_arr(tmp));
+		}
+	}
+	cmd->args[i] = 0;
+	free_arr(tmp);
+	return (1);
+}
+
 void	pipex(int fd1, int fd2, char **argv, char **env)
 {
-	
+	t_cmd	cmd1;
+	t_cmd	cmd2;
+	int		error_checker;
+
+	error_checker = 0;
+	init_cmd(&cmd1, fd1);
+	init_cmd(&cmd2, fd2);
+	if (!get_cmd(env, &cmd1, argv[2]) || !get_cmd(env, &cmd2, argv[3]))
+	{
+		free_all(&cmd1, &cmd2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	main(int ac, char **argv, char **env)
