@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:56 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 15:59:45 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:46:20 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
 
 int	ft_putstr(char *str, char *str2)
 {
