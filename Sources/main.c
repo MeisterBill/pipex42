@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:49 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 13:57:36 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 14:20:26 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,16 @@ void	pipex(int fd1, int fd2, char **argv, char **env)
 		free_all(&cmd1, &cmd2);
 		exit(EXIT_FAILURE);
 	}
-	
+	if (!check_cmd(&cmd1))
+	{
+		error_checker++;
+	}
+	if (!check_cmd(&cmd2))
+		error_checker++;
+	if (error_checker > 0)
+		exit(EXIT_FAILURE);
+	exec_cmd(&cmd1, &cmd2, env);
+	free_all(&cmd1, &cmd2);
 }
 
 int	main(int ac, char **argv, char **env)
