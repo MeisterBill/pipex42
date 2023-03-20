@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:46 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 14:23:02 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 15:43:24 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	free_all(t_cmd *cmd1, t_cmd *cmd2)
 	free_struct(cmd2);
 }
 
-void	error_cmd_msg(char *c)
+void	error_cmd_msg(char *str)
 {
-	write(2, c, ft_strlen(c));
+	write(2, str, ft_strlen(str));
 	write(2, ": ", 2);
 	write(2, "command not found\n", 18);
 }
