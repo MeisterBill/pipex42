@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:56 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/15 16:19:58 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 13:54:31 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,31 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (result);
 }
 
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	if (len < ft_strlen(s))
+		i = len;
+	else
+		i = ft_strlen(s);
+	str = malloc(sizeof(char) * i + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	if (start > (unsigned int)ft_strlen(s))
+	{
+		str[0] = '\0';
+		return (str);
+	}
+	while ((len - i) > 0 && s[start + i])
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

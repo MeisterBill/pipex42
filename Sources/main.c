@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:49 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/15 16:18:39 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/15 16:24:07 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	void	init_cmd(t_cmd *cmd, int fd)
 
 static char	**get_path(char **env)
 {
-	char	**my_path;
+	char	**poss_path;
 	char	*env_path;
 	int		i;
 
@@ -36,14 +36,14 @@ static char	**get_path(char **env)
 			env_path = ft_substr(env[i], START, ft_strlen(env[i]));
 			if (!env_path)
 				return (NULL);
-			my_path = ft_splitpath(env_path, ':');
-			if (!my_path)
+			poss_path = ft_splitpath(env_path, ':');
+			if (!poss_path)
 			{
 				free (env_path);
 				return (NULL);
 			}
 			free (env_path);
-			return (my_path);
+			return (poss_path);
 		}
 	}
 	return (NULL);
