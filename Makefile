@@ -6,7 +6,7 @@
 #    By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 15:55:59 by artvan-d          #+#    #+#              #
-#    Updated: 2023/03/15 14:54:22 by artvan-d         ###   ########.fr        #
+#    Updated: 2023/03/20 15:48:00 by artvan-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ INCS = $(addprefix -I, $(INC))
 SRCS = \
 			Sources/free.c \
 			Sources/main.c \
-			Sources/pipex_utils.c \
-			Sources/split_path.c \
-			Sources/utils.c \
+			Sources/process.c \
+			Sources/path.c \
+			Sources/string_op.c \
 			
 OBJS = ${SRCS:.c=.o}
 
