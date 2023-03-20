@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:56 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 13:54:31 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 13:57:22 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,32 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		i++;
 	}
 	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strjoin(char *s1, const char *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
 	return (str);
 }
