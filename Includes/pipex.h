@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:43 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 15:47:34 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:00:48 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		check_cmd(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd1, t_cmd *cmd2, char **env);
 
 // STRING OPERATIONS
-int		ft_strlen(char *str);
+size_t	ft_strlen(const char *str);
 int		ft_putstr(char *str, char *str2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_substr(const char *s, unsigned int start, size_t len);

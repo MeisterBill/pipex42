@@ -6,21 +6,22 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:56 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 13:57:22 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/20 15:59:45 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/pipex.h"
 
-int	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (str[i] && str)
+	while (str && str[i])
 		i++;
 	return (i);
 }
+
 
 int	ft_putstr(char *str, char *str2)
 {
