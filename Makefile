@@ -20,14 +20,15 @@ INC = \
 			pipex.h \
 
 INCS = $(addprefix -I, $(INC))
-			
+
 SRCS = \
 			Sources/free.c \
 			Sources/main.c \
 			Sources/process.c \
 			Sources/path.c \
 			Sources/string_op.c \
-			
+			Sources/shorter.c \
+
 OBJS = ${SRCS:.c=.o}
 
 all : ${NAME}
@@ -38,7 +39,7 @@ $(NAME) : $(OBJS)
 clean :
 		${RM} ${OBJS}
 
-fclean : clean 
+fclean : clean
 		${RM} ${NAME}
 
 re : fclean all

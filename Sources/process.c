@@ -35,6 +35,7 @@ int	check_cmd(t_cmd *cmd)
 	if (access(cmd->cmd, X_OK) == 0)
 	{
 		cmd->cmd_access = cmd->cmd;
+		cmd->checker = 1;
 		return (1);
 	}
 	while (cmd->poss_path[++i])
@@ -44,6 +45,7 @@ int	check_cmd(t_cmd *cmd)
 			return (0);
 		if (access(cmd->cmd_path, X_OK) != -1)
 		{
+			cmd->checker = 1;
 			return (1);
 		}
 		free(cmd->cmd_path);
@@ -60,15 +62,18 @@ static void	child_one(int *pipefd, t_cmd *cmd, char **env)
 	if (dup2(cmd->fd, STDIN_FILENO) < 0 || dup2(pipefd[1], STDOUT_FILENO) < 0)
 		return (perror("Child One"));
 	close(pipefd[0]);
-	if (cmd->cmd_path)
+	if (cmd->checker == 1)
 	{
-		if (execve(cmd->cmd_path, cmd->args, env))
-			ft_putstr(strerror(errno), 0);
-	}
-	else
-	{
-		if (execve(cmd->cmd_access, cmd->args, env))
-			ft_putstr(strerror(errno), 0);
+		if (cmd->cmd_access)
+		{
+			if (execve(cmd->cmd_access, cmd->args, env) == -1)
+				ft_putstr(strerror(errno), 0);
+		}
+		else
+		{
+			if (execve(cmd->cmd_path, cmd->args, env) == -1)
+				ft_putstr(strerror(errno), 0);
+		}
 	}
 }
 
@@ -80,15 +85,18 @@ static void	child_two(int *pipefd, t_cmd *cmd, char **env)
 	if (dup2(cmd->fd, STDOUT_FILENO) < 0 || dup2(pipefd[0], STDIN_FILENO) < 0)
 		return (perror("Child Two"));
 	close(pipefd[1]);
-	if (cmd->cmd_path)
+	if (cmd->checker == 1)
 	{
-		if (execve(cmd->cmd_path, cmd->args, env) == -1)
-			ft_putstr(strerror(errno), 0);
-	}
-	else
-	{
-		if (execve(cmd->cmd_access, cmd->args, env) == -1)
-			ft_putstr(strerror(errno), 0);
+		if (cmd->cmd_access)
+		{
+			if (execve(cmd->cmd_access, cmd->args, env) == -1)
+				ft_putstr(strerror(errno), 0);
+		}
+		else
+		{
+			if (execve(cmd->cmd_path, cmd->args, env) == -1)
+				ft_putstr(strerror(errno), 0);
+		}
 	}
 }
 

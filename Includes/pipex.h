@@ -32,6 +32,7 @@ typedef struct s_cmd
 	char	*cmd_access;
 	char	*args[100];
 	int		fd;
+	int		checker;
 }	t_cmd;
 
 // FREE
@@ -57,5 +58,8 @@ int		ft_putstr(char *str, char *str2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, const char *s2);
+void	init_commands(t_cmd *cmd1, t_cmd *cmd2, int fd1, int fd2);
+void	init_cmd(t_cmd *cmd, int fd);
+int		check_error(int error_checker);
 
 #endif

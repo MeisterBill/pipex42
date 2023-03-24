@@ -12,7 +12,7 @@
 
 #include "../Includes/pipex.h"
 
-static	void	init_cmd(t_cmd *cmd, int fd)
+void	init_cmd(t_cmd *cmd, int fd)
 {
 	cmd->fd = fd;
 	cmd->poss_path = NULL;
@@ -20,20 +20,21 @@ static	void	init_cmd(t_cmd *cmd, int fd)
 	cmd->cmd_path = NULL;
 	cmd->cmd_access = NULL;
 	cmd->args[0] = NULL;
+	cmd->checker = 0;
 }
 
-static char	**get_path(char **env)
+static char	**get_path(char **envp)
 {
 	char	**poss_path;
 	char	*env_path;
 	int		i;
 
 	i = -1;
-	while (env[++i])
+	while (envp[++i])
 	{
-		if (!ft_strncmp(env[i], "PATH=", PATH))
+		if (!ft_strncmp(envp[i], "PATH=", PATH))
 		{
-			env_path = ft_substr(env[i], START, ft_strlen(env[i]));
+			env_path = ft_substr(envp[i], START, ft_strlen(envp[i]));
 			if (!env_path)
 				return (NULL);
 			poss_path = ft_splitpath(env_path, ':');
@@ -49,13 +50,13 @@ static char	**get_path(char **env)
 	return (NULL);
 }
 
-static	int	get_cmd(char **env, t_cmd *cmd, char *argv)
+static	int	get_cmd(char **envp, t_cmd *cmd, char *argv)
 {
 	int		i;
 	char	**tmp;
 
 	i = -1;
-	cmd->poss_path = get_path(env);
+	cmd->poss_path = get_path(envp);
 	if (!cmd->poss_path)
 		return (0);
 	tmp = ft_splitpath(argv, ' ');
@@ -78,33 +79,35 @@ static	int	get_cmd(char **env, t_cmd *cmd, char *argv)
 	return (1);
 }
 
-void	pipex(int fd1, int fd2, char **argv, char **env)
+void	pipex(int fd1, int fd2, char **argv, char **envp)
 {
 	t_cmd	cmd1;
 	t_cmd	cmd2;
 	int		error_checker;
+	char	*c;
 
+	c = "wc";
 	error_checker = 0;
-	init_cmd(&cmd1, fd1);
-	init_cmd(&cmd2, fd2);
-	if (!get_cmd(env, &cmd1, argv[2]) || !get_cmd(env, &cmd2, argv[3]))
+	init_commands(&cmd1, &cmd2, fd1, fd2);
+	if (!get_cmd(envp, &cmd1, argv[2]) || !get_cmd(envp, &cmd2, argv[3]))
 	{
 		free_all(&cmd1, &cmd2);
 		exit(EXIT_FAILURE);
 	}
 	if (!check_cmd(&cmd1))
-	{
 		error_checker++;
-	}
 	if (!check_cmd(&cmd2))
 		error_checker++;
-	if (error_checker > 0)
-		exit(EXIT_FAILURE);
-	exec_cmd(&cmd1, &cmd2, env);
-	free_all(&cmd1, &cmd2);
+	if (!ft_strncmp(cmd2.cmd, c, 2))
+		error_checker = 0;
+	check_error(error_checker);
+	exec_cmd(&cmd1, &cmd2, envp);
+	if (cmd1.checker == 1)
+		free_struct(&cmd1);
+	free_struct(&cmd2);
 }
 
-int	main(int ac, char **argv, char **env)
+int	main(int ac, char **argv, char **envp)
 {
 	int	fd1;
 	int	fd2;
@@ -119,7 +122,7 @@ int	main(int ac, char **argv, char **env)
 		return (ft_putstr(strerror(errno), argv[1]));
 	if (fd2 < 0)
 		return (ft_putstr(strerror(errno), argv[4]));
-	pipex(fd1, fd2, argv, env);
+	pipex(fd1, fd2, argv, envp);
 	if (close(fd1) < 0 || close(fd2) < 0)
 		return (ft_putstr(strerror(errno), 0));
 	return (0);
