@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:49 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 16:03:46 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/27 17:46:43 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 	if (cmd1.checker == 1)
 		free_struct(&cmd1);
 	free_struct(&cmd2);
+	if (cmd1.checker == 0)
+		exit(EXIT_FAILURE);
 }
 
 int	main(int ac, char **argv, char **envp)
