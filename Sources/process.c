@@ -51,6 +51,7 @@ int	check_cmd(t_cmd *cmd)
 		free(cmd->cmd_path);
 	}
 	error_cmd_msg(cmd->cmd);
+	//free_struct(cmd);
 	return (0);
 }
 
@@ -77,24 +78,28 @@ static void	child_one(int *pipefd, t_cmd *cmd, char **env)
 	}
 }
 
-static void	child_two(int *pipefd, t_cmd *cmd, char **env)
+static void	child_two(int *pipefd, t_cmd *cmd2, t_cmd *cmd1, char **env)
 {
 	int		i;
 
 	i = -1;
-	if (dup2(cmd->fd, STDOUT_FILENO) < 0 || dup2(pipefd[0], STDIN_FILENO) < 0)
-		return (perror("Child Two"));
-	close(pipefd[1]);
-	if (cmd->checker == 1)
+	if (dup2(cmd2->fd, STDOUT_FILENO) < 0 || dup2(pipefd[0], STDIN_FILENO) < 0)
 	{
-		if (cmd->cmd_access)
+		if (cmd1->checker == 0)
+			exit(EXIT_FAILURE);
+		return (perror("Child Two"));
+	}
+	close(pipefd[1]);
+	if (cmd2->checker == 1)
+	{
+		if (cmd2->cmd_access)
 		{
-			if (execve(cmd->cmd_access, cmd->args, env) == -1)
+			if (execve(cmd2->cmd_access, cmd2->args, env) == -1)
 				ft_putstr(strerror(errno), 0);
 		}
 		else
 		{
-			if (execve(cmd->cmd_path, cmd->args, env) == -1)
+			if (execve(cmd2->cmd_path, cmd2->args, env) == -1)
 				ft_putstr(strerror(errno), 0);
 		}
 	}
@@ -116,9 +121,9 @@ void	exec_cmd(t_cmd *cmd1, t_cmd *cmd2, char **env)
 		child_one(pipefd, cmd1, env);
 	pid_2 = fork();
 	if (pid_2 < 0)
-		return (perror("Fork Two"));
+		return (perror("Fork Two   "));
 	if (!pid_2)
-		child_two(pipefd, cmd2, env);
+		child_two(pipefd, cmd2, cmd1, env);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(-1, &status, 0);
