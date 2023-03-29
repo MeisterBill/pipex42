@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:49 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/27 17:46:43 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:05:55 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**get_path(char **envp)
 	return (NULL);
 }
 
-static	int	get_cmd(char **envp, t_cmd *cmd, char *argv)
+int	get_cmd(char **envp, t_cmd *cmd, char *argv)
 {
 	int		i;
 	char	**tmp;
@@ -89,11 +89,7 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 	c = "wc";
 	error_checker = 0;
 	init_commands(&cmd1, &cmd2, fd1, fd2);
-	if (!get_cmd(envp, &cmd1, argv[2]) || !get_cmd(envp, &cmd2, argv[3]))
-	{
-		free_all(&cmd1, &cmd2);
-		exit(EXIT_FAILURE);
-	}
+	ft_shorter(envp, &cmd1, &cmd2, argv);
 	if (!check_cmd(&cmd1))
 		error_checker++;
 	if (!check_cmd(&cmd2))

@@ -6,7 +6,7 @@
 /*   By: artvan-d <artvan-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:55:43 by artvan-d          #+#    #+#             */
-/*   Updated: 2023/03/20 16:00:48 by artvan-d         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:05:44 by artvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,8 @@ char	*ft_strjoin(char *s1, const char *s2);
 void	init_commands(t_cmd *cmd1, t_cmd *cmd2, int fd1, int fd2);
 void	init_cmd(t_cmd *cmd, int fd);
 int		check_error(int error_checker);
+void	ft_shorter(char **envp, t_cmd *cmd1, t_cmd *cmd2, char **argv);
+int		get_cmd(char **envp, t_cmd *cmd, char *argv);
+
 
 #endif
