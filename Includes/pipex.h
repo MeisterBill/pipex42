@@ -64,5 +64,4 @@ int		check_error(int error_checker);
 void	ft_shorter(char **envp, t_cmd *cmd1, t_cmd *cmd2, char **argv);
 int		get_cmd(char **envp, t_cmd *cmd, char *argv);
 
-
 #endif

@@ -100,7 +100,8 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 	exec_cmd(&cmd1, &cmd2, envp);
 	if (cmd1.checker == 1)
 		free_struct(&cmd1);
-	free_struct(&cmd2);
+	if (cmd2.checker == 1)
+		free_struct(&cmd2);
 	if (cmd1.checker == 0)
 		exit(EXIT_FAILURE);
 }
